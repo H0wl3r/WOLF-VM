@@ -1,0 +1,58 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+      "properties": {
+      "@timestamp": {
+        "type": "date_nanos"
+      },
+      "Channel": {
+        "type": "keyword"
+      },
+      "Computer": {
+        "type": "keyword"
+      },
+      "Details": {
+        "type": "object",
+        "properties" : {
+          "Deails.PID": {"type": "keyword"}
+        }
+      },
+      "EventID": {
+        "type": "long"
+      },
+      "EvtxFile": {
+        "type": "keyword"
+      },
+      "ExtraFieldInfo": {
+        "type": "object",
+        "properties" : {
+          "ProcessId": { "type": "keyword"}
+        }
+      },
+      "Level": {
+        "type": "keyword"
+      },
+      "MitreTactics": {
+        "type": "keyword"
+      },
+      "MitreTags": {
+        "type": "keyword"
+      },
+      "OtherTags": {
+        "type": "keyword"
+      },
+      "RecordID": {
+        "type": "keyword"
+      },
+      "RuleFile": {
+        "type": "keyword"
+      },
+      "RuleTitle": {
+        "type": "keyword"
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "hayabusa-pipeline": {
+    "processors": [
+      {
+        "script": {
+          "source": "if (ctx.containsKey('Details') && ctx.Details.containsKey('')) { ctx.Details.put('AdditionalInfo', ctx.Details.remove(''));}"
+        }
+      },
+      {
+        "date": {
+          "field": "Timestamp",
+          "output_format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSXXX",
+          "formats": [
+            "ISO8601"
+          ]
+        }
+      }
+    ],
+    "description": "Pipeline for parsing Hayabusa JSONL logs"
+  }
+}

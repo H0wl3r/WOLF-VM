@@ -3,45 +3,10 @@
 ##################################
 
 # dot sourcing variables
-. "C:\WOLF\Var.ps1"
+. "C:\WOLF\Scripts\Var.ps1"
 
 # So we can run other powershell scripts within this script
 Set-ExecutionPolicy Bypass -Scope Process -f | Out-Null
-
-# Create Wolf Directory 
-New-Item -type Directory $dirPath -force | Out-Null
-
-# Define the list of scripts and URL locations.
-$fileList = @(
-    [PSCustomObject]@{
-        FileName = "Var.ps1"
-        URL = "https://raw.githubusercontent.com/username/repository/branch/path/to/file1.txt"
-    },
-    [PSCustomObject]@{
-        FileName = "Initialisation.ps1"
-        URL = "https://raw.githubusercontent.com/username/repository/branch/path/to/file2.txt"
-    },
-        [PSCustomObject]@{
-        FileName = "ElasticSearch.ps1"
-        URL = "https://raw.githubusercontent.com/username/repository/branch/path/to/file2.txt"
-    },
-        [PSCustomObject]@{
-        FileName = "Kibana.ps1"
-        URL = "https://raw.githubusercontent.com/username/repository/branch/path/to/file2.txt"
-    },
-        [PSCustomObject]@{
-        FileName = "WinlogBeat.ps1"
-        URL = "https://raw.githubusercontent.com/username/repository/branch/path/to/file2.txt"
-    }
-)
-
-# Loop through the list and download each file
-foreach ($file in $fileList) {
-    $outputPath = "$dirPath\" + $file.FileName
-    Invoke-WebRequest -Uri $file.URL -OutFile $outputPath
-}
-
-Start-Sleep -Seconds 5
 
 # Disable screen saver
 powercfg -change -standby-timeout-ac 0
@@ -53,5 +18,14 @@ powercfg -change -monitor-timeout-dc 0
 
 # Disable UAC Prompt pop ups
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 0
-Stop-Process -Name explorer -Force
-start-sleep -Seconds 5
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Value 0
+New-NetFirewallRule -DisplayName "Allow OpenJDK Inbound" -Direction Inbound -Program "$elasticsearch_path\jdk\bin\java.exe" -Action Allow
+New-NetFirewallRule -DisplayName "Allow OpenJDK Outbound" -Direction Outbound -Program "$elasticsearch_path\jdk\bin\java.exe" -Action Allow
+Start-Sleep -Seconds 5
+Stop-Process -name explorer -Force
+Start-Sleep -Seconds 10
+
+# Disable Microsoft Defender
+Set-MpPreference -DisableRealtimeMonitoring $true
+Set-MpPreference -SignatureDisableUpdateOnStartupWithoutEngine $true
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Value 1
