@@ -11,6 +11,9 @@
 **WOLF** is a complete forensic and incident response solution that not only integrates the power of **Elastic**, **Hayabusa**, and **Zeek**, but also automates the ingestion of critical log and network data, helping you get to the insights faster.
 <br>
 <br>
+**WOLF** is a complete forensic and incident response solution that not only integrates the power of **Elastic**, **Hayabusa**, and **Zeek**, but also automates the ingestion of critical log and network data, helping you get to the insights faster.
+<br>
+<br>
 **Deploy WOLF today and streamline your forensic investigations with automation and powerful analysis tools!**
 <br>
 <br>
