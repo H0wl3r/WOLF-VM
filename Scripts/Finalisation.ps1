@@ -208,7 +208,7 @@ $bookmarksTemplate = @{
                 },
                 @{
                     name = "WOLF-VM Github"
-                    url = "https://github.com/h0wl3r"
+                    url = "https://github.com/H0wl3r/WOLF-VM"
                     type = "url"
                     guid = [guid]::NewGuid().ToString()
                 },
