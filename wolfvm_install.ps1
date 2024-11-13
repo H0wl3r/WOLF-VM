@@ -96,6 +96,11 @@ Write-Host " "([char]0x2611)"  WOLF VM Repository Downloaded"
 Expand-Archive "C:\Users\$env:username\Downloads\WOLF-VM.zip" -DestinationPath "C:\"
 Rename-Item -Path "C:\WOLF-VM-main" -NewName "C:\WOLF"
 Remove-Item -Path "C:\Users\$env:username\Downloads\WOLF-VM.zip" -Force
+
+New-Item -type Directory "C:\WOLF\Logs\Hayabusa" -Force | Out-Null
+New-Item -type Directory "C:\WOLF\Logs\PCAP" -Force | Out-Null
+New-Item -type Directory "C:\WOLF\Logs\WinLogs" -Force | Out-Null
+New-Item -type Directory "C:\WOLF\Logs\Zeek" -Force | Out-Null
 Start-Sleep 1
 
 
