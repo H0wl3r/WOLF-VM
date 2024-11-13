@@ -13,7 +13,9 @@
 
 ![Dashboard](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/screenshot.png)
 
+
 ---
+<br>
 ## 🔑 Key Features:
 
 ### 🔍 Comprehensive DFIR Toolset with Elastic SIEM
@@ -34,6 +36,7 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 
 
 ---
+<br>
 # Wiki
 
 - Wiki Home
@@ -42,7 +45,9 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 - WOLF Dashboards
 - Build Wolf VM
 
+
 ---
+
 # Releases
 
 Current Release: V0.1 
