@@ -26,7 +26,7 @@
 
 ### 🔍 Comprehensive DFIR Toolset with Elastic SIEM
 
-WOLF leverages **Elastic SIEM** to deliver fast, in-depth analysis of **Windows EVTX logs** and **PCAP files**, integrating both log and network data to provide a complete forensic picture. With customizable dashboards, WOLF offers instant insights, highlights anomalies, and accelerates incident response for rapid threat detection.
+WOLF leverages **Elastic SIEM** to deliver fast, in-depth analysis of **Windows EVTX logs** and **PCAP files**, integrating both log and network data to provide a complete forensic picture. With customisable dashboards, WOLF offers instant insights, highlights anomalies, and accelerates incident response for rapid threat detection.
 
 ### 📄 Advanced Threat Detection with Hayabusa
 
