@@ -45,11 +45,12 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
   
 # Wiki
 
-- Wiki Home
-- Virtual Machine Information
-- WOLF Commands
-- WOLF Dashboards
-- Build Wolf VM
+- [Wiki Home](https://github.com/H0wl3r/WOLF-VM/wiki)
+- [VM Information](https://github.com/H0wl3r/WOLF-VM/wiki/VM-Information)
+- [Download WOLF VM](https://github.com/H0wl3r/WOLF-VM/wiki/Download-WOLF-VM)
+- [WOLF Commands](https://github.com/H0wl3r/WOLF-VM/wiki/WOLF-Commands)
+- [WOLF Objects & Dashboards](https://github.com/H0wl3r/WOLF-VM/wiki/WOLF-Objects-&-Dashboards)
+- [Build Wolf VM](https://github.com/H0wl3r/WOLF-VM/wiki/Build-WOLF-VM)
 
 
 ---
