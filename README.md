@@ -1,13 +1,13 @@
-![image](wolf.png)
+![WOLF-VM](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/wolf.png)
 # 🐺 Workstation Observation and Log Forensics
 
-**WOLF** (Workstation Observation and Log Forensics) is a virtual machine designed to support the InfoSec community in conducting efficient **Digital Forensics** and **Incident Response** (DFIR). With built-in tools for analysing **Windows EVTX logs** and **network traffic (PCAP files)**, WOLF enables in-depth forensic investigations that provide actionable insights into system and network events.
+**WOLF** (Workstation Observation and Log Forensics) is a virtual machine designed to support the InfoSec community in conducting efficient **Digital Forensics** and **Incident Response** (DFIR). With built-in tools for analyzing **Windows EVTX logs** and **network traffic (PCAP files)**, WOLF enables in-depth forensic investigations that provide actionable insights into system and network events.
 
 **WOLF** is a complete forensic and incident response solution that not only integrates the power of **Elastic**, **Hayabusa**, and **Zeek**, but also automates the ingestion of critical log and network data, helping you get to the insights faster.
 
 **Deploy WOLF today and streamline your forensic investigations with automation and powerful analysis tools!**
 
-![[screenshot.png]]
+![Dashboard](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/screenshot.png)
 
 ---
 ## 🔑 Key Features:
@@ -42,8 +42,6 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 # Releases
 
 Current Release: V0.1 
-
-Download VM
 
 *WOLF-VM is provided as a community resource*
 
