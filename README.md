@@ -1,4 +1,10 @@
-![WOLF-VM](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/wolf.png)
+ 
+
+
+<img src="" width="500">
+<p align="center">
+<img align="center" src="https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/wolf.png" width=50% height=50%>  
+</p>
 # 🐺 Workstation Observation and Log Forensics
 
 **WOLF** (Workstation Observation and Log Forensics) is a virtual machine designed to support the InfoSec community in conducting efficient **Digital Forensics** and **Incident Response** (DFIR). With built-in tools for analyzing **Windows EVTX logs** and **network traffic (PCAP files)**, WOLF enables in-depth forensic investigations that provide actionable insights into system and network events.
