@@ -16,6 +16,7 @@ New-Item -Type Directory "$PS_modules\WOLF" -Force -ErrorAction Stop | Out-Null
 Copy-Item -Path "$WOLF_psm1" -Destination "$PS_modules\WOLF\" -ErrorAction Stop
 Import-Module -Name WOLF -ErrorAction Stop
 
+
 #######################################
 #####     WOLF Kibana Objects     #####
 #######################################

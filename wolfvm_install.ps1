@@ -32,7 +32,6 @@ function LoadingAnimation($scriptBlock, $message) {
     
     try {
         [Console]::CursorVisible = $false
-        
         $counter = 0
         $frames = ' |', ' /', ' -', ' \' 
         $jobName = Start-Job -ScriptBlock $scriptBlock
