@@ -94,7 +94,7 @@ catch {
 
 Write-Host " "([char]0x2611)"  WOLF VM Repository Downloaded"
 Expand-Archive "C:\Users\$env:username\Downloads\WOLF-VM.zip" -DestinationPath "C:\"
-Rename-Item -Path "C:\WOLF-VM" -NewName "C:\WOLF"
+Rename-Item -Path "C:\WOLF-VM-main" -NewName "C:\WOLF"
 Remove-Item -Path "C:\Users\$env:username\Downloads\WOLF-VM.zip" -Force
 Start-Sleep 1
 
