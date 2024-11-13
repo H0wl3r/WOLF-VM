@@ -5,7 +5,7 @@
 
 # 🐺 Workstation Observation and Log Forensics
 
-**WOLF** (Workstation Observation and Log Forensics) is a virtual machine designed to support the InfoSec community in conducting efficient **Digital Forensics** and **Incident Response** (DFIR). With built-in tools for analyzing **Windows EVTX logs** and **network traffic (PCAP files)**, WOLF enables in-depth forensic investigations that provide actionable insights into system and network events.
+**WOLF** (Workstation Observation and Log Forensics) is a virtual machine designed to support the InfoSec community in conducting efficient **Digital Forensics** and **Incident Response** (DFIR). With built-in tools for analysing **Windows EVTX logs** and **network traffic (PCAP files)**, WOLF enables in-depth forensic investigations that provide actionable insights into system and network events.
 <br>
 <br>
 **WOLF** is a complete forensic and incident response solution that not only integrates the power of **Elastic**, **Hayabusa**, and **Zeek**, but also automates the ingestion of critical log and network data, helping you get to the insights faster.
@@ -31,11 +31,11 @@ WOLF integrates **Hayabusa’s Sigma-compatible detection rules**, enabling fast
 
 ### 🌐 Network Traffic Analysis with Zeek
 
-WOLF integrates **Zeek** to analyze **PCAP files**, providing a comprehensive view of network activity. Automating PCAP ingestion to correlate GeoIP and metadata from EVTX logs, offering a unified perspective on host and network data.
+WOLF integrates **Zeek** to analyse **PCAP files**, providing a comprehensive view of network activity. Automating PCAP ingestion to correlate GeoIP and metadata from EVTX logs, offering a unified perspective on host and network data.
 
 ### ⚙️ Streamlined DFIR Workflow
 
-WOLF automates the ingestion of logs and network traffic, ensuring your data is always ready for analysis, while custom dashboards provide real-time visualizations for quick anomaly detection and faster response.
+WOLF automates the ingestion of logs and network traffic, ensuring your data is always ready for analysis, while custom dashboards provide real-time visualisations for quick anomaly detection and faster response.
 
 
 ---
