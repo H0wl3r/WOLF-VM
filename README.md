@@ -65,7 +65,7 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 | Title           | Value                                                            |
 | --------------- | ---------------------------------------------------------------- |
 | File Name       | WOLF.7z                                                          |
-| File Size       | 11.0GB                                                           |
+| Size            | 11.1GB (11,913,814,016 bytes)                                    |
 | Current Release | v1.0                                                             |
 | MD5             | E3247D85795A0604F7211491AFC7A72A                                 |
 | SHA256          | FD87D05DFAF968020E2821DB995BD01307645E8D024FFBCC022CE136C207DD4F |
@@ -75,6 +75,6 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 > [!note]
 > *WOLF-VM is provided as a community resource*
 >
-> ![Download](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/download.png)  &nbsp;&nbsp;**[Download WOLF-VM](https://drive.google.com/file/d/1pkZGM0aaws0R5qxnlKWg2gABEX3694xI/view?usp=sharing)**
+> ![Download](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/download.png)  &nbsp;&nbsp;**[Download WOLF-VM](https://drive.google.com/file/d/13TqGfvYRZrRImh40cr7kPNYvW6M_dxf_/view?usp=sharing)**
 
 
