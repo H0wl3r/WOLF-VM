@@ -51,14 +51,15 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 
 # Releases
 <br>
+
 > [!caution]
+> The VM was built using VMware Workstation Pro 17 and comes with VMware Tools pre-installed. WOLF-VM is a Windows 11-based virtual machine with TPM enabled for encryption.
+>
 > **VM Encryption password:**
 > ```
 > forensics
 > ```
 
-
-> ![Download](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/download.png)  &nbsp;&nbsp;**[Download WOLF-VM](https://drive.google.com/file/d/1pkZGM0aaws0R5qxnlKWg2gABEX3694xI/view?usp=sharing)**
 <br>
 
 | Title           | Value                                                            |
@@ -73,3 +74,7 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 
 > [!note]
 > *WOLF-VM is provided as a community resource*
+>
+> ![Download](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/download.png)  &nbsp;&nbsp;**[Download WOLF-VM](https://drive.google.com/file/d/1pkZGM0aaws0R5qxnlKWg2gABEX3694xI/view?usp=sharing)**
+
+
