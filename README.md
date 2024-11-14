@@ -51,17 +51,23 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 
 # Releases
 <br>
+> [!caution]
+> **VM Encryption password:**
+> ```
+> forensics
+> ```
+
 
 > ![Download](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/download.png)  &nbsp;&nbsp;**[Download WOLF-VM](https://drive.google.com/file/d/1pkZGM0aaws0R5qxnlKWg2gABEX3694xI/view?usp=sharing)**
 <br>
 
-| Title     | Value                                                            |
-| --------- | ---------------------------------------------------------------- |
-| File Name | WOLF.7z                                                          |
-| File Size | 11.0GB (11,913,801,728 bytes)                                    |
-| Current Release | v1.0 |
-| MD5       | F0B5D2BB0B172A84F50A2C8D715EC14F                                 |
-| SHA256    | 404232688CFD48E59A23C197C25EEAF6BCF04BEEF3E67B890E9D7D9C5F57E970 |
+| Title           | Value                                                            |
+| --------------- | ---------------------------------------------------------------- |
+| File Name       | WOLF.7z                                                          |
+| File Size       | 11.0GB                                                           |
+| Current Release | v1.0                                                             |
+| MD5             | E3247D85795A0604F7211491AFC7A72A                                 |
+| SHA256          | FD87D05DFAF968020E2821DB995BD01307645E8D024FFBCC022CE136C207DD4F |
 
 <br>
 
