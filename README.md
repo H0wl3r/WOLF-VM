@@ -14,9 +14,11 @@
 **Download WOLF-VM today and streamline your forensic investigations with automation and powerful analysis tools!**
 <br>
 <br>
-![Dashboard](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/screenshot.png)
+![WOLF Dashboard](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/WOLF_Dash.png)
 
+![Hayabusa Dashboard](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/Haya_Dash.png)
 
+![Zeek Dashboard](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/Zeek_Dash.png)
   
 ## 🔑 Key Features:
 
