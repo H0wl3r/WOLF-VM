@@ -26,7 +26,7 @@
 
 WOLF leverages **Elastic SIEM** to deliver fast, in-depth analysis of **Windows EVTX logs** and **PCAP files**, integrating both log and network data to provide a complete forensic picture. With customisable dashboards, WOLF offers instant insights, highlights anomalies, and accelerates incident response for rapid threat detection.
 
-### 📄 Advanced Threat Detection with Hayabusa
+### **🕵️** Advanced Threat Detection with Hayabusa
 
 WOLF integrates **Hayabusa’s Sigma-compatible detection rules**, enabling faster threat detection and analysis within Elastic. Hayabusa parses **Windows Event Logs (EVTX)** to identify suspicious patterns, providing tailored detections, while WOLF offers visual insights that empower security teams to respond swiftly and accurately.
 
