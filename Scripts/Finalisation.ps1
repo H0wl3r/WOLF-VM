@@ -21,7 +21,7 @@ Import-Module -Name WOLF -ErrorAction Stop
 #######################################
 
 function WOLF-Import-WOLFObjects {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $kibanaServer = "http://localhost:5601"  # Your Kibana server URL
     $savedObjectsFile = "C:\WOLF\KibanaObjects\wolf.ndjson"  # Path to your NDJSON file containing the saved objects
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -59,7 +59,7 @@ function WOLF-Import-WOLFObjects {
     }
 }
 function WOLF-Import-WinObjects {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $kibanaServer = "http://localhost:5601"  # Your Kibana server URL
     $savedObjectsFile = "C:\WOLF\KibanaObjects\windows.ndjson"  # Path to your NDJSON file containing the saved objects
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -97,7 +97,7 @@ function WOLF-Import-WinObjects {
     }
 }
 function WOLF-Import-ZeekObjects {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $kibanaServer = "http://localhost:5601"  # Your Kibana server URL
     $savedObjectsFile = "C:\WOLF\KibanaObjects\zeek.ndjson"  # Path to your NDJSON file containing the saved objects
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
