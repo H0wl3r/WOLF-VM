@@ -31,6 +31,7 @@
         "type": "object",
         "properties" : {
           "ProcessId": { "type": "keyword"},
+          "ExtraFieldInfo.Data[1]": { "type" : "keyword"},
           "ExtraFieldInfo.Data[2]": { "type" : "keyword"}
         }
       },

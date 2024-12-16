@@ -5,7 +5,6 @@
 # dot sourcing variables
 . "C:\WOLF\Scripts\Var.ps1"
 
-
 #############################
 #####     WOLF.psm1     #####
 #############################

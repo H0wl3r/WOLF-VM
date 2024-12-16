@@ -44,11 +44,8 @@ start-sleep -seconds (2*60)
 # Import the certificate into the Windows Certificate Store
 $certificateFilePath = "$elasticsearch_Path\config\certs\http_ca.crt"
 Import-Certificate -FilePath $certificateFilePath -CertStoreLocation Cert:\LocalMachine\Root
-
-# Ensure that the [System.Windows.Forms] assembly is loaded correctly 
 [Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
-# Reset elastic password
 $password_reset = Start-Process cmd.exe -ArgumentList "/c $elasticsearch_Path\bin\elasticsearch-reset-password -u elastic -s -f > $elasticsearch_Path\elastic_password.txt" -WindowStyle normal
 start-sleep -seconds 15
 Add-Type @"
@@ -62,10 +59,7 @@ Add-Type @"
     }
 "@
 
-# Get the handle of the CMD window
 $CMDWindowHandle = (Get-Process -Name cmd).MainWindowHandle
-
-# Bring the CMD window to the foreground
 [User32]::SetForegroundWindow($CMDWindowHandle)
 [System.Windows.Forms.SendKeys]::SendWait("y")
 [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")

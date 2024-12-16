@@ -26,8 +26,6 @@ Stop-Process -name explorer -Force
 Start-Sleep -Seconds 10
 
 # Disable Microsoft Defender
-Set-MpPreference -DisableRealtimeMonitoring $true
-Set-MpPreference -SignatureDisableUpdateOnStartupWithoutEngine $true
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Value 1
 
 # Install jq

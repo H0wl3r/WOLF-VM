@@ -188,7 +188,6 @@ function WOLF-Upload-HayabusaObjects {
             "$fileContent`r`n" +
             "--$boundary--"
 
-    # Send the request
     try {
         Invoke-RestMethod -Uri $url -Method Post -Headers $headers -Body $body -ContentType "multipart/form-data; boundary=$boundary"
     } catch {
