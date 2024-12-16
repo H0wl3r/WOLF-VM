@@ -12,7 +12,7 @@ Remove-Item "$dirPath\Hayabusa\hayabusa-$hayabusa_version-win-x64.zip"
 C:\WOLF\Hayabusa\hayabusa.exe update-rules
 
 function WOLF-Create-HayabusaPipeline {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $elasticsearchServer = "https://localhost:9200"
     $pipelineName = "hayabusa-pipeline"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -45,7 +45,7 @@ function WOLF-Create-HayabusaPipeline {
 WOLF-Create-HayabusaPipeline
 
 function WOLF-Create-HayabusaIndex {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "hayabusa"  
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -138,7 +138,7 @@ function WOLF-Create-HayabusaIndex {
 WOLF-Create-HayabusaIndex
 
 function WOLF-Create-DataViewFromJson {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $kibanaServer = "http://localhost:5601"
     $dataViewFile = "C:\WOLF\Hayabusa\hayabusa_dataview.json"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -163,7 +163,7 @@ function WOLF-Create-DataViewFromJson {
 WOLF-Create-DataViewFromJson
 
 function WOLF-Upload-HayabusaObjects {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $kibanaServer = "http://localhost:5601"  
     $savedObjectsFile = "C:\WOLF\KibanaObjects\hayabusa.ndjson" 
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
