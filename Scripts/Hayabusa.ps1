@@ -17,7 +17,7 @@ function WOLF-Create-HayabusaPipeline {
     $pipelineName = "hayabusa-pipeline"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
     
-    # Define the request body for the ingest pipeline
+    # request body for the ingest pipeline
     $requestBody = @{
         description = "Pipeline for parsing hayabusa JSONL logs"
         processors = @(
@@ -36,13 +36,9 @@ function WOLF-Create-HayabusaPipeline {
         )
     } | ConvertTo-Json -Depth 10
 
-    # Set the Elasticsearch credentials
     $username = "elastic"
     $password = "$elastic_password"
-
-    # Convert the username and password to Base64 for authentication
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
-
     # Send the request to create the ingest pipeline
     $result = Invoke-RestMethod -Uri "$elasticsearchServer/_ingest/pipeline/$pipelineName" -Method Put -ContentType "application/json" -Body $requestBody -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
 }
@@ -50,15 +46,13 @@ WOLF-Create-HayabusaPipeline
 
 function WOLF-Create-HayabusaIndex {
     $version = "8.16.0"
-    $elasticsearchServer = "https://localhost:9200"  # Your Elasticsearch server URL
-    $indexName = "hayabusa"  # Name of the index you want to create
+    $elasticsearchServer = "https://localhost:9200"
+    $indexName = "hayabusa"  
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
-
-    # Define your Elasticsearch username and password for authentication
     $username = "elastic"
     $password = "$elastic_password"
 
-    # Define the index body with settings and mappings
+    # index body with settings and mappings
     $indexBody = @{
         settings = @{
             number_of_shards = 1
@@ -81,6 +75,9 @@ function WOLF-Create-HayabusaIndex {
                         "PID" =@{
                             type = "keyword"
                         }
+                        "AdditionalInfo" = @{
+                            type = "keyword"
+                        }
                     }
                 }
                 "EventID" = @{
@@ -93,6 +90,9 @@ function WOLF-Create-HayabusaIndex {
                     type = "object"
                     properties = @{
                         "ProcessId" = @{
+                            type = "keyword"
+                        }
+                        "Data[2]" = @{
                             type = "keyword"
                         }
                     }
@@ -122,10 +122,8 @@ function WOLF-Create-HayabusaIndex {
         }
     }
 
-    # Convert the index body to JSON
+    
     $indexBodyJson = $indexBody | ConvertTo-Json -Depth 10
-
-    # Convert username and password to Base64 for basic authentication
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
 
     # Set the Elasticsearch index API URL
@@ -135,32 +133,25 @@ function WOLF-Create-HayabusaIndex {
     $result = Invoke-RestMethod -Uri $indexUrl -Method Put -ContentType "application/json" -Body $indexBodyJson -Headers @{
         Authorization = ("Basic {0}" -f $base64AuthInfo)
     }
-
-    # Output success message
     Write-Host "Index '$indexName' has been successfully created in Elasticsearch."
 }
 WOLF-Create-HayabusaIndex
 
 function WOLF-Create-DataViewFromJson {
     $version = "8.16.0"
-    $kibanaServer = "http://localhost:5601"  # Your Kibana server URL
-    $dataViewFile = "C:\WOLF\Hayabusa\hayabusa_dataview.json"  # Path to your JSON file containing the data view configuration
+    $kibanaServer = "http://localhost:5601"
+    $dataViewFile = "C:\WOLF\Hayabusa\hayabusa_dataview.json"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
-
-    # Define your Kibana username and password for authentication
     $username = "elastic"
     $password = "$elastic_password"
 
-    # Read the data view body from the JSON file
     $dataViewBodyJson = Get-Content $dataViewFile -Raw
-
-    # Convert username and password to Base64 for basic authentication
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
 
     # Set the Kibana Data View API URL
     $dataViewUrl = "$kibanaServer/api/data_views/data_view"
 
-    # Send the POST request to create the Data View using the body from the JSON file
+    # Create the Data View using the body from the JSON file
     $result = Invoke-RestMethod -Uri $dataViewUrl -Method Post -ContentType "application/json" -Body $dataViewBodyJson -Headers @{
         Authorization = ("Basic {0}" -f $base64AuthInfo)
         "kbn-xsrf" = "true"
@@ -173,18 +164,13 @@ WOLF-Create-DataViewFromJson
 
 function WOLF-Upload-HayabusaObjects {
     $version = "8.16.0"
-    $kibanaServer = "http://localhost:5601"  # Your Kibana server URL
-    $savedObjectsFile = "C:\WOLF\KibanaObjects\hayabusa.ndjson"  # Path to your NDJSON file containing the saved objects
+    $kibanaServer = "http://localhost:5601"  
+    $savedObjectsFile = "C:\WOLF\KibanaObjects\hayabusa.ndjson" 
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
-
-    # Define your Kibana username and password for authentication
     $username = "elastic"
     $password = $elastic_password
 
-    # Convert username and password to Base64 for basic authentication
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
-
-    # Set the URL
     $url = "$kibanaServer/api/saved_objects/_import"
 
     # Create the request headers

@@ -17,7 +17,8 @@
       "Details": {
         "type": "object",
         "properties" : {
-          "Deails.PID": {"type": "keyword"}
+          "PID": {"type": "keyword"},
+          "AdditionalInfo": {"type": "keyword"}
         }
       },
       "EventID": {
@@ -29,7 +30,8 @@
       "ExtraFieldInfo": {
         "type": "object",
         "properties" : {
-          "ProcessId": { "type": "keyword"}
+          "ProcessId": { "type": "keyword"},
+          "ExtraFieldInfo.Data[2]": { "type" : "keyword"}
         }
       },
       "Level": {

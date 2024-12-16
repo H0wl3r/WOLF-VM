@@ -1,6 +1,6 @@
 function WOLF-Remove-All_logs {
     $indexPatterns = @("winlogbeat-*", "hayabusa", "filebeat-*")
-    $version = "8.16.0"
+    $version = "8.17.0"
     $elasticsearchServer = "https://localhost:9200"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
     $requestBody = @{
@@ -31,7 +31,7 @@ function WOLF-Remove-All_logs {
 }
 
 function WOLF-Remove-Filebeat_logs {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "filebeat-*"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -58,7 +58,7 @@ function WOLF-Remove-Filebeat_logs {
 }
 
 function WOLF-Remove-Hayabusa_logs {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "hayabusa"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -78,13 +78,13 @@ function WOLF-Remove-Hayabusa_logs {
     $output = $result.deleted
     Write-Host ""
     Write-Host -NoNewline " "([char]0x2611)  
-    Write-Host -NoNewline " $output " -ForegroundColor Yellow 
+    Write-Host -NoNewline "  $output " -ForegroundColor Yellow 
     Write-Host -NoNewline "Hayabusa Documents Deleted" 
     Write-Host "`n"
 }
 
 function WOLF-Remove-WinLogBeat_logs {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "winlogbeat-*"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -111,7 +111,7 @@ function WOLF-Remove-WinLogBeat_logs {
 }
 
 function WOLF-Import-Windows_logs {
-    $version = "8.16.0"
+    $version = "8.17.0"
     cd C:\WOLF\WinlogBeat\winlogbeat-$version-windows-x86_64
     # Filter by EVTX extension
     $winlogs = "C:\WOLF\Logs\WinLogs"
@@ -181,17 +181,18 @@ function WOLF-Import-PCAP {
 }
 
 function WOLF-Import-Hayabusa_logs {
-    $version = "8.16.0"
+    $version = "8.17.0"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "hayabusa"
-    $pipelineName = "hayabusa-pipeline"  # Add your pipeline name here
+    $pipelineName = "hayabusa-pipeline"
     $elasticPasswordFile = "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
     $elastic_password = Get-Content $elasticPasswordFile
     $hayabusa_Output = "C:\WOLF\Logs\Hayabusa\results.jsonl"
     $inputFilePath = $hayabusa_Output
     
-    # Analysis EVTX logs with hayabusa
+    # Hayabusa Analysis
     C:\WOLF\Hayabusa\hayabusa.exe json-timeline --no-wizard --output $hayabusa_Output --sort-events --GeoIP "\\wsl.localhost\Ubuntu-22.04\var\lib\GeoIP" --exclude-status deprecated,unsupported,experimental --min-level low --remove-duplicate-detections --clobber --JSONL-output --ISO-8601 --directory "C:\WOLF\Logs\WinLogs\" | Out-Null
+    bash /mnt/c/WOLF/Hayabusa/hayabusa.sh
 
     # Set username and password for authentications with Elasticsearch server.
     $username = "elastic"
@@ -205,28 +206,10 @@ function WOLF-Import-Hayabusa_logs {
         Write-Host "Error: Input file '$inputFilePath' not found." -ForegroundColor Red
         return
     }
+    
+    $newjsonFile = "C:\WOLF\Logs\Hayabusa\results.ndjson"
+    $bulkData = Get-Content -Path $newjsonFile -Raw
 
-    # Initialise bulkData variable
-    $bulkData = ""
-
-    # Read the file in chunks (streaming approach)
-    Get-Content -Path $inputFilePath -Encoding utf8 | ForEach-Object {
-        $line = $_
-
-        # Skip empty lines
-        if ([string]::IsNullOrWhiteSpace($line)) {
-            return
-        }
-
-        # Manually format the index action line as a string without using document IDs
-        $indexLine = "{ `"index`": { `"_index`": `"$indexName`" } }"
-
-        # Append the index line and document line to the bulk request data
-        $bulkData += "$indexLine`n"
-        $bulkData += "$line`n"
-    }
-
-    # Perform the bulk ingestion to Elasticsearch using the Bulk API with a pipeline
     try {
         $bulkUri = "$elasticsearchServer/_bulk?pipeline=$pipelineName"
         $bulkBytes = [System.Text.Encoding]::UTF8.GetBytes($bulkData)  # Ensure the data is UTF-8 encoded
@@ -251,6 +234,8 @@ function WOLF-Import-Hayabusa_logs {
         Write-Host "Error occurred during the bulk ingestion: $_" -ForegroundColor Red
         Write-Host " "
     }
+    Remove-Item "C:\WOLF\Logs\Hayabusa\results.jsonl"
+    Remove-Item "C:\WOLF\Logs\Hayabusa\results.json"
 }
 
 function WOLF-Update-Hayabusa_Rules {

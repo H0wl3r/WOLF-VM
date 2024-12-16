@@ -4552,16 +4552,16 @@
       "ExtraFieldInfo.Data[2]": {
         "count": 0,
         "name": "ExtraFieldInfo.Data[2]",
-        "type": "number",
+        "type": "string",
         "esTypes": [
-          "long"
+          "text"
         ],
         "scripted": false,
         "searchable": true,
         "aggregatable": true,
         "readFromDocValues": true,
         "format": {
-          "id": "number"
+          "id": "string"
         },
         "shortDotsEnable": false
       },

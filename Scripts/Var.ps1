@@ -2,8 +2,8 @@
 #####     VARIABLES     #####
 #############################
 
-$version = "8.16.0"
-$hayabusa_version = "2.18.0"
+$version = "8.17.0"
+$hayabusa_version = "2.19.0"
 $dirPath = "C:\WOLF"
 $elasticsearch_Path = "$dirPath\ElasticSearch\elasticsearch-$version"
 $kibana_Path = "$dirPath\Kibana\kibana-$version"
