@@ -29,4 +29,4 @@ Start-Sleep -Seconds 10
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Value 1
 
 # Install jq
-wsl -u root -- apt install jq
+wsl -u root -- apt install jq -y

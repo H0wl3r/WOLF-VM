@@ -252,4 +252,4 @@ $bookmarksTemplate | ConvertTo-Json -Depth 10 | Set-Content -Path $chromeBookmar
 
 Remove-Item -Path "C:\WOLF\.git" -Recurse -Force
 Remove-Item -Path "C:\WOLF\.obsidian" -Recurse -Force
-wevtutil el | ForEach-Object { wevtutil cl $_ }
+wevtutil el | ForEach-Object { wevtutil cl $_ } | stop-computer -computername localhost -Forcep-Computer
