@@ -9,14 +9,12 @@ function WOLF-Remove-All_logs {
         }
     } | ConvertTo-Json
 
-    # Set username and password if your Elasticsearch server requires authentication
     $username = "elastic"
     $password = "$elastic_password"
-    # Convert username and password to Base64
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))  
 
     $deletedCount = 0
-    # Send the request to delete all documents in the index pattern list
+     pattern list
     foreach ($indexPattern in $indexPatterns) {
         $result = Invoke-RestMethod -Uri "$elasticsearchServer/$indexPattern/_delete_by_query" -Method Post -ContentType "application/json" -Body $requestBody -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
         $deletedCount = $result.deleted
@@ -41,12 +39,9 @@ function WOLF-Remove-Filebeat_logs {
         }
     } | ConvertTo-Json
 
-    # Set username and password if your Elasticsearch server requires authentication
     $username = "elastic"
     $password = "$elastic_password"
-    # Convert username and password to Base64
-    $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))
-    # Send the request to delete all documents in the index
+    $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))   
     $result = Invoke-RestMethod -Uri "$elasticsearchServer/$indexName/_delete_by_query" -Method Post -ContentType "application/json" -Body $requestBody -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
     $output = $result.deleted
     Write-Host ""
@@ -68,12 +63,9 @@ function WOLF-Remove-Hayabusa_logs {
         }
     } | ConvertTo-Json
 
-    # Set username and password if your Elasticsearch server requires authentication
     $username = "elastic"
     $password = "$elastic_password"
-    # Convert username and password to Base64
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))
-    # Send the request to delete all documents in the index
     $result = Invoke-RestMethod -Uri "$elasticsearchServer/$indexName/_delete_by_query" -Method Post -ContentType "application/json" -Body $requestBody -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
     $output = $result.deleted
     Write-Host ""
@@ -94,12 +86,10 @@ function WOLF-Remove-WinLogBeat_logs {
         }
     } | ConvertTo-Json
 
-    # Set username and password if your Elasticsearch server requires authentication
     $username = "elastic"
     $password = "$elastic_password"
-    # Convert username and password to Base64
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))
-    # Send the request to delete all documents in the index
+    
     $result = Invoke-RestMethod -Uri "$elasticsearchServer/$indexName/_delete_by_query" -Method Post -ContentType "application/json" -Body $requestBody -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
     $output = $result.deleted
     Write-Host ""
@@ -113,7 +103,6 @@ function WOLF-Remove-WinLogBeat_logs {
 function WOLF-Import-Windows_logs {
     $version = "8.17.0"
     cd C:\WOLF\WinlogBeat\winlogbeat-$version-windows-x86_64
-    # Filter by EVTX extension
     $winlogs = "C:\WOLF\Logs\WinLogs"
     $dirs = Get-ChildItem -Path $winlogs -filter *.evtx
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -149,7 +138,6 @@ ssl:
   ca_trusted_fingerprint: "$ca_trust_fingerprint"
 "@
     $winlogbeat_template | Out-File "C:\WOLF\WinlogBeat\winlogbeat-$version-windows-x86_64\winlogbeat.yml" -Encoding UTF8
-    # Execute Winlogbeat w/custom vars
 	.\winlogbeat.exe -c .\winlogbeat.yml | Out-Null
     foreach($file in $dirs) {
         Write-Host -NoNewline " "([char]0x2611)
@@ -190,29 +178,20 @@ function WOLF-Import-Hayabusa_logs {
     $hayabusa_Output = "C:\WOLF\Logs\Hayabusa\results.jsonl"
     $inputFilePath = $hayabusa_Output
     
-    # Hayabusa Analysis
+    # Hayabusa Analysis and Log creation
     C:\WOLF\Hayabusa\hayabusa.exe json-timeline --no-wizard --output $hayabusa_Output --sort-events --GeoIP "\\wsl.localhost\Ubuntu-22.04\var\lib\GeoIP" --exclude-status deprecated,unsupported,experimental --min-level low --remove-duplicate-detections --clobber --JSONL-output --ISO-8601 --directory "C:\WOLF\Logs\WinLogs\" | Out-Null
     bash /mnt/c/WOLF/Hayabusa/hayabusa.sh
 
-    # Set username and password for authentications with Elasticsearch server.
     $username = "elastic"
     $password = $elastic_password
-
-    # Convert username and password to Base64 for Basic Authentication
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
 
-    # Verify that the input file exists
-    if (-not (Test-Path -Path $inputFilePath)) {
-        Write-Host "Error: Input file '$inputFilePath' not found." -ForegroundColor Red
-        return
-    }
-    
     $newjsonFile = "C:\WOLF\Logs\Hayabusa\results.ndjson"
     $bulkData = Get-Content -Path $newjsonFile -Raw
 
     try {
         $bulkUri = "$elasticsearchServer/_bulk?pipeline=$pipelineName"
-        $bulkBytes = [System.Text.Encoding]::UTF8.GetBytes($bulkData)  # Ensure the data is UTF-8 encoded
+        $bulkBytes = [System.Text.Encoding]::UTF8.GetBytes($bulkData)
         $response = Invoke-RestMethod -Method Post -Uri $bulkUri `
                                       -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} `
                                       -Body $bulkBytes -ContentType "application/x-ndjson; charset=utf-8"
