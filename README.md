@@ -11,7 +11,7 @@
 **WOLF-VM** is a complete forensic and incident response solution that not only integrates the power of **Elastic**, **Hayabusa**, and **Zeek**, but also automates the ingestion of critical log and network data, helping you get to the insights faster.
 <br>
 <br>
-**Download WOLF-VM today and streamline your forensic investigations with automation and powerful analysis tools!**
+**Download WOLF-VM and streamline your investigations, focusing on results.**
 <br>
 <br>
 ![WOLF Dashboard](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/WOLF_Dash.png)
