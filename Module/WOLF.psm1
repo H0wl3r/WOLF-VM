@@ -14,7 +14,6 @@ function WOLF-Remove-All_logs {
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))  
 
     $deletedCount = 0
-     pattern list
     foreach ($indexPattern in $indexPatterns) {
         $result = Invoke-RestMethod -Uri "$elasticsearchServer/$indexPattern/_delete_by_query" -Method Post -ContentType "application/json" -Body $requestBody -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
         $deletedCount = $result.deleted
@@ -186,35 +185,42 @@ function WOLF-Import-Hayabusa_logs {
     $password = $elastic_password
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
 
-    $newjsonFile = "C:\WOLF\Logs\Hayabusa\results.ndjson"
-    $bulkData = Get-Content -Path $newjsonFile -Raw
-
-    try {
-        $bulkUri = "$elasticsearchServer/_bulk?pipeline=$pipelineName"
-        $bulkBytes = [System.Text.Encoding]::UTF8.GetBytes($bulkData)
-        $response = Invoke-RestMethod -Method Post -Uri $bulkUri `
-                                      -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} `
-                                      -Body $bulkBytes -ContentType "application/x-ndjson; charset=utf-8"
-
-        # Check for errors in the response
-        if ($response.errors -eq $false) {
-            Write-Host -NoNewline "`n "([char]0x2611)
-            Write-Host -NoNewline "  Hayabusa " -ForegroundColor Yellow
-            Write-Host -NoNewline "Analysis Complete! The results have been successfully added to the Hayabusa index`n"
-            Write-Host " "
-        } else {
-            Write-Host "Errors occurred during bulk ingestion:" -ForegroundColor Red
-            $response.items | Where-Object { $_.index.error } | ForEach-Object {
-                Write-Host $_.index.error.reason -ForegroundColor Red
+    $chunkDir = "C:\WOLF\Logs\Hayabusa\chunks"
+    $files = Get-ChildItem -Path $chunkDir -Filter "*.ndjson"
+    
+    foreach ($file in $files) {
+        $bulkData = Get-Content -Path $file.FullName -Raw
+        
+        try {
+            $bulkUri = "$elasticsearchServer/_bulk?pipeline=$pipelineName"
+            $response = Invoke-RestMethod -Method Post -Uri $bulkUri `
+                                          -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} `
+                                          -Body ([System.Text.Encoding]::UTF8.GetBytes($bulkData)) `
+                                          -ContentType "application/x-ndjson; charset=utf-8"
+    
+            if ($response.errors -eq $false) {
+            } else {
+                $hasErrors = $true
+                $response.items | Where-Object { $_.index.error } | ForEach-Object {
+                    $errorDetails += $_.index.error.reason
+                }
             }
+        } catch {
+            $hasErrors = $true
+            $errorDetails += $_.Exception.Message
         }
-    } catch {
-        Write-Host " "
-        Write-Host "Error occurred during the bulk ingestion: $_" -ForegroundColor Red
-        Write-Host " "
     }
-    Remove-Item "C:\WOLF\Logs\Hayabusa\results.jsonl"
-    Remove-Item "C:\WOLF\Logs\Hayabusa\results.json"
+    if (-not $hasErrors) {
+        Write-Host -NoNewline "`n "([char]0x2611)
+        Write-Host -NoNewline "  Hayabusa " -ForegroundColor Yellow
+        Write-Host -NoNewline "Analysis Complete! The results have been successfully added to the Hayabusa index`n"
+        Write-Host " "
+    } else {
+        Write-Host "`nErrors occurred during bulk ingestion:" -ForegroundColor Red
+        $errorDetails | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+    }
+        Remove-Item "C:\WOLF\Logs\Hayabusa\results.jsonl"
+        Remove-Item "C:\WOLF\Logs\Hayabusa\chunks" -Recurse -Force
 }
 
 function WOLF-Update-Hayabusa_Rules {

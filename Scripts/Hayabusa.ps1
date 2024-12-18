@@ -92,7 +92,19 @@ function WOLF-Create-HayabusaIndex {
                         "ProcessId" = @{
                             type = "keyword"
                         }
+                        "Data[1]" = @{
+                            type = "keyword"
+                        }
                         "Data[2]" = @{
+                            type = "keyword"
+                        }
+                        "Data[3]" = @{
+                            type = "keyword"
+                        }
+                        "Data[4]" = @{
+                            type = "keyword"
+                        }
+                        "Data[5]" = @{
                             type = "keyword"
                         }
                     }

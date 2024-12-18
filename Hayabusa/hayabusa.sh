@@ -1,3 +1,14 @@
 #!/bin/bash
-jq -Rs 'split("\n")[] | select(length>0) | fromjson? | ({"index":{"_index":"hayabusa"}}), .' /mnt/c/WOLF/Logs/Hayabusa/results.jsonl > /mnt/c/WOLF/Logs/Hayabusa/results.json; 
-jq -s -c '.[]' /mnt/c/WOLF/Logs/Hayabusa/results.json > /mnt/c/WOLF/Logs/Hayabusa/results.ndjson;
+
+input_jsonl="/mnt/c/WOLF/Logs/Hayabusa/results.jsonl"
+output_dir="/mnt/c/WOLF/Logs/Hayabusa/chunks"
+lines_per_chunk=2000  # Set chunk size (must be even for Elasticsearch _bulk API)
+
+mkdir -p "$output_dir"
+
+# Convert input JSONL to Elasticsearch bulk format NDJSON
+jq -Rs 'split("\n")[] | select(length>0) | fromjson? | ({"index":{"_index":"hayabusa"}}), .' "$input_jsonl" | \
+jq -s -c '.[]' > "/mnt/c/WOLF/Logs/Hayabusa/results.ndjson"
+
+# Split the NDJSON file into chunks with proper line pairs
+split -l $lines_per_chunk --numeric-suffixes=1 --additional-suffix=.ndjson "/mnt/c/WOLF/Logs/Hayabusa/results.ndjson" "${output_dir}/results_chunk_"
