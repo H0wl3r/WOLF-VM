@@ -1,3 +1,45 @@
+function LoadingAnimation($scriptBlock, $message) {
+    $cursorTop = [Console]::CursorTop
+
+    try {
+        [Console]::CursorVisible = $false
+        $counter = 0
+        $frames = ' |', ' /', ' -', ' \'
+
+        # Start the job to run the script block
+        $jobName = Start-Job -ScriptBlock $scriptBlock
+
+        while ($jobName.JobStateInfo.State -eq "Running") {
+            $frame = $frames[$counter % $frames.Length]
+            
+            Write-Host " $frame  $message" -NoNewLine
+            [Console]::SetCursorPosition(0, $cursorTop)
+            
+            $counter += 1
+            Start-Sleep -Milliseconds 125
+        }
+
+        # Handle job completion
+        Receive-Job -Job $jobName -ErrorAction Stop | Out-Null
+
+        if ($jobName.JobStateInfo.State -eq "Failed") {
+            Write-Host "Error: " -ForegroundColor Red -NoNewLine
+            $errorMessages = ($jobName.ChildJobs | Where-Object { $_.Error -ne $null }).Error
+            $errorMessages | ForEach-Object {
+                Write-Host $_.Exception.Message
+            }
+        }
+    } catch {
+        Write-Host "An unexpected error occurred: $_" -ForegroundColor Red
+    } finally {
+        [Console]::SetCursorPosition(0, $cursorTop)
+        [Console]::CursorVisible = $true
+        Write-Host "" # Clear the loading animation
+
+        # Clean up the job
+        Remove-Job -Job $jobName -Force -ErrorAction SilentlyContinue
+    }
+}
 function WOLF-Remove-All_logs {
     $indexPatterns = @("winlogbeat-*", "hayabusa", "filebeat-*")
     $version = "8.17.0"
@@ -100,50 +142,10 @@ function WOLF-Remove-WinLogBeat_logs {
 }
 
 function WOLF-Import-Windows_logs {
-    $version = "8.17.0"
-    cd C:\WOLF\WinlogBeat\winlogbeat-$version-windows-x86_64
-    $winlogs = "C:\WOLF\Logs\WinLogs"
-    $dirs = Get-ChildItem -Path $winlogs -filter *.evtx
-    $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
-    $ca_trust_fingerprint = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\fingerprint.txt"
     Write-Host ""
-
-    # Create a list to hold all the event log entries
-    $eventLogsConfig = @()
-
-    foreach($file in $dirs) {
-        $filePath = $winlogs + "\" + $file.Name
-        # Add the file to the list of event log entries
-        $eventLogsConfig += "  - name: $filePath"
-        $eventLogsConfig += "    no_more_events: stop"
-    }
-
-    # Combine all event logs into the Winlogbeat config template
-    $winlogbeat_template = @"
-# WOLF Winlogbeat config
-winlogbeat.event_logs:
-$($eventLogsConfig -join "`r`n")
-winlogbeat.shutdown_timeout: 60s
-winlogbeat.registry_file: evtx-registry.yml
-
-# Allow ELK to see active connections
-monitoring.enabled: true
-output.elasticsearch:
-  hosts: ["https://localhost:9200"]
-  username: "elastic"
-  password: "$elastic_password"
-ssl:
-  enabled: true
-  ca_trusted_fingerprint: "$ca_trust_fingerprint"
-"@
-    $winlogbeat_template | Out-File "C:\WOLF\WinlogBeat\winlogbeat-$version-windows-x86_64\winlogbeat.yml" -Encoding UTF8
-	.\winlogbeat.exe -c .\winlogbeat.yml | Out-Null
-    foreach($file in $dirs) {
-        Write-Host -NoNewline " "([char]0x2611)
-        Write-Host -NoNewline "  $file " -ForegroundColor Yellow
-        Write-Host -NoNewline "has been added to the winlogbeat-* index`n" 
-    }
-    Write-Host ""
+    LoadingAnimation { & "C:\WOLF\Module\Import-Windows_logs.ps1" } " Importing Windows Logs"
+    Write-Host " "
+    Start-Sleep 1
 }
 
 function WOLF-Import-PCAP {
@@ -168,59 +170,10 @@ function WOLF-Import-PCAP {
 }
 
 function WOLF-Import-Hayabusa_logs {
-    $version = "8.17.0"
-    $elasticsearchServer = "https://localhost:9200"
-    $indexName = "hayabusa"
-    $pipelineName = "hayabusa-pipeline"
-    $elasticPasswordFile = "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
-    $elastic_password = Get-Content $elasticPasswordFile
-    $hayabusa_Output = "C:\WOLF\Logs\Hayabusa\results.jsonl"
-    $inputFilePath = $hayabusa_Output
-    
-    # Hayabusa Analysis and Log creation
-    C:\WOLF\Hayabusa\hayabusa.exe json-timeline --no-wizard --output $hayabusa_Output --sort-events --GeoIP "\\wsl.localhost\Ubuntu-22.04\var\lib\GeoIP" --exclude-status deprecated,unsupported,experimental --min-level low --remove-duplicate-detections --clobber --JSONL-output --ISO-8601 --directory "C:\WOLF\Logs\WinLogs\" | Out-Null
-    bash /mnt/c/WOLF/Hayabusa/hayabusa.sh
-
-    $username = "elastic"
-    $password = $elastic_password
-    $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
-
-    $chunkDir = "C:\WOLF\Logs\Hayabusa\chunks"
-    $files = Get-ChildItem -Path $chunkDir -Filter "*.ndjson"
-    
-    foreach ($file in $files) {
-        $bulkData = Get-Content -Path $file.FullName -Raw
-        
-        try {
-            $bulkUri = "$elasticsearchServer/_bulk?pipeline=$pipelineName"
-            $response = Invoke-RestMethod -Method Post -Uri $bulkUri `
-                                          -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} `
-                                          -Body ([System.Text.Encoding]::UTF8.GetBytes($bulkData)) `
-                                          -ContentType "application/x-ndjson; charset=utf-8"
-    
-            if ($response.errors -eq $false) {
-            } else {
-                $hasErrors = $true
-                $response.items | Where-Object { $_.index.error } | ForEach-Object {
-                    $errorDetails += $_.index.error.reason
-                }
-            }
-        } catch {
-            $hasErrors = $true
-            $errorDetails += $_.Exception.Message
-        }
-    }
-    if (-not $hasErrors) {
-        Write-Host -NoNewline "`n "([char]0x2611)
-        Write-Host -NoNewline "  Hayabusa " -ForegroundColor Yellow
-        Write-Host -NoNewline "Analysis Complete! The results have been successfully added to the Hayabusa index`n"
-        Write-Host " "
-    } else {
-        Write-Host "`nErrors occurred during bulk ingestion:" -ForegroundColor Red
-        $errorDetails | ForEach-Object { Write-Host $_ -ForegroundColor Red }
-    }
-        Remove-Item "C:\WOLF\Logs\Hayabusa\results.jsonl"
-        Remove-Item "C:\WOLF\Logs\Hayabusa\chunks" -Recurse -Force
+    Write-Host ""
+    LoadingAnimation { & "C:\WOLF\Module\Import-Hayabusa_logs.ps1" } " Importing Hayabusa Logs"
+    Write-Host " "
+    Start-Sleep 1
 }
 
 function WOLF-Update-Hayabusa_Rules {

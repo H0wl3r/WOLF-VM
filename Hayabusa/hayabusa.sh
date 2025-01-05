@@ -2,11 +2,11 @@
 
 input_jsonl="/mnt/c/WOLF/Logs/Hayabusa/results.jsonl"
 output_dir="/mnt/c/WOLF/Logs/Hayabusa/chunks"
-lines_per_chunk=2000  # Set chunk size (must be even for Elasticsearch _bulk API)
+lines_per_chunk=2000  # Set chunk size
 
 mkdir -p "$output_dir"
 
-# Convert input JSONL to Elasticsearch bulk format NDJSON
+# Convert input JSONL to NDJSON
 jq -Rs 'split("\n")[] | select(length>0) | fromjson? | ({"index":{"_index":"hayabusa"}}), .' "$input_jsonl" | \
 jq -s -c '.[]' > "/mnt/c/WOLF/Logs/Hayabusa/results.ndjson"
 
