@@ -22,7 +22,7 @@ function HayabusaAnalysis {
 }
 function HayabusaChunk {
     try {
-        bash /mnt/c/WOLF/Hayabusa/hayabusa.sh
+        wsl bash /mnt/c/WOLF/Hayabusa/hayabusa.sh 2>$null
         $chunkDir = 
         if (-not(Get-ChildItem -Path "C:\WOLF\Logs\Hayabusa\chunks" | Where-Object { -not $_.PSIsContainer })) {
             Write-Host "Error: No Chunk files were found" -ForegroundColor Red
