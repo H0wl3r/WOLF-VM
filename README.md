@@ -52,32 +52,4 @@ WOLF automates the ingestion of logs and network traffic, ensuring your data is 
 - [Build Wolf VM](https://github.com/H0wl3r/WOLF-VM/wiki/Build-WOLF-VM)
 <br>
 
-# Releases
-<br>
-
-> [!caution]
-> The VM was built using VMware Workstation Pro 17 and comes with VMware Tools pre-installed. WOLF-VM is a Windows 11-based virtual machine with TPM enabled for encryption.
->
-> **VM Encryption password:**
-> ```
-> forensics
-> ```
-
-<br>
-
-| Title           | Value                                                            |
-| --------------- | ---------------------------------------------------------------- |
-| File Name       | WOLF.7z                                                          |
-| Size            | 11.1GB (11,913,814,016 bytes)                                    |
-| Current Release | v1.0                                                             |
-| MD5             | E3247D85795A0604F7211491AFC7A72A                                 |
-| SHA256          | FD87D05DFAF968020E2821DB995BD01307645E8D024FFBCC022CE136C207DD4F |
-
-<br>
-
-> [!note]
-> *WOLF-VM is provided as a community resource*
->
-> ![Download](https://raw.githubusercontent.com/H0wl3r/WOLF-VM/refs/heads/main/Images/download.png)  &nbsp;&nbsp;**[Download WOLF-VM](https://drive.google.com/file/d/13TqGfvYRZrRImh40cr7kPNYvW6M_dxf_/view?usp=sharing)**
-
 
