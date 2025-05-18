@@ -1,4 +1,4 @@
-$version = "8.17.0"
+$version = "9.0.1"
 
 $winlogs = "C:\WOLF\Logs\WinLogs"
 $dirs = Get-ChildItem -Path $winlogs -filter *.evtx

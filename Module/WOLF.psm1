@@ -42,7 +42,7 @@ function LoadingAnimation($scriptBlock, $message) {
 }
 function WOLF-Remove-All_logs {
     $indexPatterns = @("winlogbeat-*", "hayabusa", "filebeat-*")
-    $version = "8.17.0"
+    $version = "9.0.1"
     $elasticsearchServer = "https://localhost:9200"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
     $requestBody = @{
@@ -70,7 +70,7 @@ function WOLF-Remove-All_logs {
 }
 
 function WOLF-Remove-Filebeat_logs {
-    $version = "8.17.0"
+    $version = "9.0.1"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "filebeat-*"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -94,7 +94,7 @@ function WOLF-Remove-Filebeat_logs {
 }
 
 function WOLF-Remove-Hayabusa_logs {
-    $version = "8.17.0"
+    $version = "9.0.1"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "hayabusa"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
@@ -117,7 +117,7 @@ function WOLF-Remove-Hayabusa_logs {
 }
 
 function WOLF-Remove-WinLogBeat_logs {
-    $version = "8.17.0"
+    $version = "9.0.1"
     $elasticsearchServer = "https://localhost:9200"
     $indexName = "winlogbeat-*"
     $elastic_password = Get-Content "C:\WOLF\ElasticSearch\elasticsearch-$version\elastic_password.txt"
